@@ -21,6 +21,10 @@ export default function Main(props) {
         }
         
         const realm = await getRealm();
+
+        realm.write(() => {
+            realm.create('Repository', data)
+        })
     }
 
 
@@ -29,9 +33,10 @@ export default function Main(props) {
         try{
             const response = await api.get(`/repos/${input}`);
 
+            await saveRepository(response.data);
         }
         catch(err){
-
+            console.warn('Erro: \n', err)
         }
     }
 
